@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Genealogy App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CHANGE ME">
+    <meta name="keywords" content="CHANGE ME">
+    <meta name="author" content="CHANGE ME">
+    <!-- Load jquery, bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <!-- Custom CSS End -->
+</head>
+<body>
+    <!-- <h3>Download test</h3>
+    If simpleValid.ged exists in the uploads/ directory on the server, then clicking on the link below will download it from the server.<br>
+    <a href="/uploads/simpleValid.ged">simpleValid.ged</a>
+    <hr> -->
+
+    <title>Genealogy App</title>
+
+    <h3>App Status</h3>
+
+    <textarea id = "statusarea" rows = "5" cols = "60" readonly>
+    </textarea>
+    <button id="clearbutton">Clear</button>
+    
+    
+    <h2>File Log Panel</h2>
+    <div class="tablestyleDiv">
+    <table id="filetable" class="tablestyle">
+        <thead>
+        <tr>
+            <th>File name (click to download)</th>
+            <th>Source</th>
+            <th>GEDC Version</th>
+            <th>encoding</th>
+            <th>Submitter Name</th>
+            <th>Submitter Adress</th>
+            <th>Number of Individuals</th>
+            <th>Number of Families</th>
+        </tr>
+        </thead>
+    </table>
+    </div>
+
+
+    <h2>GEDCOM View Panel</h2>
+
+    <form>
+        <select id="viewFiledrop">
+            <option>Select a file</option>
+        </select>
+    </form>
+
+    <div class="tablestyleDiv">
+    <table id="viewtable" class="tablestyle">
+    </table>
+    </div>
+
+    <h4>Upload a GEDCOM file</h4>
+
+    <form action="/upload" method = "POST" enctype="multipart/form-data">
+    <input name="uploadFile" type="file"/>
+    <br>
+    <input type="submit" value="Upload"/>
+    </form>
+
+    <h4>Create Simple GEDCOM</h4>
+
+    <form>
+        <table>
+            <tr>
+                <td>
+                    FileName:
+                </td>
+                <td>
+                    <input id="getfilename" type="text" placeholder="Required" name = "">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Submitter Name:
+                </td>
+                <td>
+                    <input id="getsubmname" type="text" placeholder="Required" name = "">
+                </td>
+            </tr>   
+            <tr>
+                <td>
+                    Submitter Adress:
+                </td>
+                <td>
+                    <input id="getsubmadress" type="text" placeholder="Optional" name = "">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+
+    <button id="createGEDbutton">Create GEDCOM</button>
+
+
+    <h4>Add Individual</h4>
+
+    <form>
+        Select a file:
+        <select id="addindiFiledrop">
+            <option>Select a file</option>
+        </select>
+        <table>
+            <tr>
+                <td>
+                    First Name:
+                </td>
+                <td>
+                    <input id = "indilastname" type="text" placeholder="First Name" name = "">
+                </td>
+            </tr>   
+            <tr>
+                <td>
+                    Last Name:
+                </td>
+                <td>
+                    <input id = "indifirstname" type="text" placeholder="Last Name" name = "">
+                </td>
+            </tr>  
+        </table>
+    </form>
+
+
+    <button id="addindibutton">Add Individual</button>
+
+    <h4>Get Descendants</h4>
+
+    <form>
+        Select a file:
+        <select id="getdescFiledrop">
+            <option>Select a file</option>
+        </select>
+        <table>
+            <tr>
+                <td>
+                    First Name:
+                </td>
+                <td>
+                    <input id="descfname" type="text" placeholder="First Name" name = "">
+                </td>
+            </tr>   
+            <tr>
+                <td>
+                    Last Name:
+                </td>
+                <td>
+                    <input id="desclname" type="text" placeholder="Last Name" name = "">
+                </td>
+            </tr>  
+            <tr>
+                <td>
+                    Number of Generations:
+                </td>
+                <td>
+                    <input id="descnum" type="text" placeholder="Number of Generations" name = "">
+                </td>
+            </tr>  
+        </table>
+    </form>
+
+    <button id="getdescbutton">Get Descendants</button>
+
+    <div class="tablestyleDiv">
+    <table id="desctable" class="tablestyle">
+    </table>
+    </div>
+
+    <h4>Get Ancestors</h4>
+
+    <form>
+        Select a file:
+        <select id="getanscFiledrop">
+            <option>Select a file</option>
+        </select>
+        <table>
+            <tr>
+                <td>
+                    First Name:
+                </td>
+                <td>
+                    <input id="anscfname" type="text" placeholder="First Name" name = "">
+                </td>
+            </tr>   
+            <tr>
+                <td>
+                    Last Name:
+                </td>
+                <td>
+                    <input id="ansclname" type="text" placeholder="Last Name" name = "">
+                </td>
+            </tr>  
+            <tr>
+                <td>
+                    Number of Generations:
+                </td>
+                <td>
+                    <input id="anscnum" type="text" placeholder="Number of Generations" name = "">
+                </td>
+            </tr>  
+        </table>
+    </form>
+
+    <button id="getanscbutton">Get Ancestors</button>
+    <div class="tablestyleDiv">
+    <table id="ansctable" class="tablestyle">
+    </table>
+    </div>
+
+    <br/>
+    <br/>
+    <h2>Database functionality</h2>
+
+    <button id="savedatabutton">Store All Files</button>
+    <button id="cleardatabutton">Clear All Data</button>
+    <button id="displaydbbutton">Display DB Status</button>
+
+    <br/>
+    <h5>Execute Query</h5>
+
+    <button id="helpbutton">Help</button>
+
+    <!-- Tab links -->
+    <div class="tab">
+      <button class="tablinks" onclick="openTab(event, 'dispindilname')">Display all individuals sorted by last name</button>
+      <button class="tablinks" onclick="openTab(event, 'dispindifile')">Display the individuals from a specific file</button>
+      <button class="tablinks" onclick="openTab(event, 'dispfilebyindi')">Display files ordered by number of individuals</button>
+      <button class="tablinks" onclick="openTab(event, 'dispfilebysub')">Display files by submitter name</button>
+      <button class="tablinks" onclick="openTab(event, 'dispfilebysource')">Display files by source</button>
+      <button class="tablinks" onclick="openTab(event, 'custquery')">Custom Query</button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="dispindilname" class="tabcontent">
+      <button id="dbdispindibutton">Submit</button>
+    </div>
+
+    <div id="dispindifile" class="tabcontent">
+      <select id="dbFiledrop">
+            <option>Select a file</option>
+        </select>
+        <button id="dbindibutton">Submit</button>
+    </div>
+
+    <div id="dispfilebyindi" class="tabcontent">
+        <button id="dbfilebutton">Submit</button>
+    </div>
+
+    <div id="dispfilebysub" class="tabcontent">
+      Enter submitter name<input id="dbsubname" type="text" name = "">
+        <button id="dbsubmbutton">Submit</button>
+    </div>
+
+    <div id="dispfilebysource" class="tabcontent">
+      Enter source name<input id="dbsource" type="text" name = "">
+      <button id="dbsourcebutton">Submit</button>
+    </div>
+
+    <div id="custquery" class="tabcontent">
+      SELECT <input id="dbcust" type="text" name = "">
+        <button id="custbutton">Submit</button>
+    </div>
+
+    <textarea id = "dbstatusarea" rows = "5" cols = "60" readonly>
+    </textarea>
+
+    <button id="cleardbbutton">Clear</button>
+
+
+
+
+
+    <!-- Leave me at the bottom of body -->
+    <script src="/index.js"></script>
+</body>
+</html>
+
